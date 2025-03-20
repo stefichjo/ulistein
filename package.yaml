@@ -1,0 +1,30 @@
+name: ulistein
+version: 0.1.0.0
+github: "githubuser/ulistein"
+license: BSD3
+author: "Author name here"
+maintainer: "example@example.com"
+copyright: "2024 Author name here"
+
+extra-source-files:
+- README.md
+
+description: Please see the README on GitHub at <https://github.com/githubuser/ulistein#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+tests:
+  ulistein-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - ulistein
+    - hspec >= 2.7.1

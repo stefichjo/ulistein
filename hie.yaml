@@ -1,0 +1,6 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "ulistein:lib"
+    - path: "./test"
+      component: "ulistein:test:ulistein-test"
