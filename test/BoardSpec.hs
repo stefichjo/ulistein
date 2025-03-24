@@ -1,7 +1,7 @@
 module BoardSpec (spec) where
 
 import Test.Hspec ( describe, it, shouldBe, Spec )
-import Cards (Card(..), rotateCard)
+import Cards (Card(..))
 import Data.Maybe (isNothing, isJust)
 import Data.Array ((!), array, elems, (//))
 import Board

@@ -18,11 +18,8 @@ instance Show Card where
     show :: Card -> String
     show (Card t r b l) = [t, r, b, l]
 
--- | Rotiert eine Karte n-mal nach rechts
-rotateCard :: Card -> Int -> Card
-rotateCard card 0 = card
-rotateCard (Card t r b l) n = rotateCard (Card l t r b) (n - 1)
-
 rotationsCard :: Card -> [Card]
-rotationsCard card = map (rotateCard card) [0..3]
+rotationsCard card = take 4 $ iterate rotate card
 
+rotate :: Card -> Card
+rotate (Card t r b l) = Card l t r b

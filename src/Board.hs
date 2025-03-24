@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Board where
 
-import Cards (Card, rotateCard, top, left, right, bottom, rotationsCard, Half)
+import Cards (Card, top, left, right, bottom, rotationsCard, Half)
 import Data.Maybe (isJust, isNothing)
 import Data.List (intercalate)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
