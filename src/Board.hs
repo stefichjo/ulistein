@@ -1,9 +1,9 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Board where
 
-import Cards (Card, top, left, right, bottom, rotationsCard, Half)
-import Data.Maybe (isJust, isNothing)
-import Data.List (intercalate)
+import Cards (Card (..), top, left, right, bottom, rotationsCard, Half)
+import Data.Maybe (isJust, isNothing, catMaybes)
+import Data.List (intercalate, find)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
 import Data.Char (toUpper, toLower)
 
@@ -43,44 +43,58 @@ on :: Setter
 card `on` board =
   let
     cardsCount = length $ filter isJust (elems board)
-    setter card b = b // [(positions !! cardsCount, Just card)]
+    place card b = b // [(positions !! cardsCount, Just card)]
   in
-    setter card board
+    place card board
 
+getNonMatchingHalves :: Board -> [(Half, Half)]
+getNonMatchingHalves board =
+  let
+    [c0, c1, c2, c3, c4, c5, c6, c7, c8] = elems board
+
+    -- Hilfsfunktionen für horizontale und vertikale Paare
+    getHorizontalPair :: (Maybe Card, Maybe Card) -> Maybe (Half, Half)
+    getHorizontalPair (mc1, mc2) = do
+        c1 <- mc1
+        c2 <- mc2
+        return (right c1, left c2)
+
+    getVerticalPair :: (Maybe Card, Maybe Card) -> Maybe (Half, Half)
+    getVerticalPair (mc1, mc2) = do
+        c1 <- mc1
+        c2 <- mc2
+        return (bottom c1, top c2)
+
+    horizontalHalves = map getHorizontalPair [(c0, c1), (c1, c2), (c3, c4), (c4, c5), (c6, c7), (c7, c8)]
+    verticalHalves = map getVerticalPair [(c0, c3), (c3, c6), (c1, c4), (c4, c7), (c2, c5), (c5, c8)]
+
+    halves = horizontalHalves ++ verticalHalves
+  in
+    filter (not . matches) $ catMaybes halves
 
 maybeOn :: Card -> Board -> Maybe Board
 maybeOn card board =
-  let
-    rotations = rotationsCard card
-    boards = map (`on` board) rotations
-  in
-    undefined
+  if
+    null board
+  then
+    Just (card `on` emptyBoard)
+  else
+    let
+      rotations = rotationsCard card
+      boards = map (`on` board) rotations
+    in
+      find isValid boards
+
+matches :: (Half, Half) -> Bool
+matches ('s', 'S') = True
+matches ('S', 's') = True
+matches ('k', 'K') = True
+matches ('K', 'k') = True
+matches ('m', 'M') = True
+matches ('M', 'm') = True
+matches ('p', 'P') = True
+matches ('P', 'p') = True
+matches _ = False
 
 isValid :: Board -> Bool
-isValid board =
-  let
-    cardsCount = countCards board
-  in
-    undefined
-
-adjacentHalves :: Board -> [(Half, Half)]
-adjacentHalves board =
-  let
-    -- Positions of horizontally adjacent cards
-    horizontalPairs = [(row,col) | row <- [0..2], col <- [0..1]]
-    -- Positions of vertically adjacent cards
-    verticalPairs = [(row,col) | row <- [0..1], col <- [0..2]]
-    
-    -- Get cards at adjacent positions, if they exist
-    horizontalCards = [(c1, c2) | pos <- horizontalPairs, 
-                                 Just c1 <- [board ! pos],
-                                 Just c2 <- [board ! (fst pos, snd pos + 1)]]
-    verticalCards = [(c1, c2) | pos <- verticalPairs,
-                               Just c1 <- [board ! pos],
-                               Just c2 <- [board ! (fst pos + 1, snd pos)]]
-    
-    -- Extract matching sides from adjacent cards
-    rowAdjacents = [(right c1, left c2) | (c1, c2) <- horizontalCards]
-    colAdjacents = [(bottom c1, top c2) | (c1, c2) <- verticalCards]
-  in
-    rowAdjacents ++ colAdjacents
+isValid board = null $ getNonMatchingHalves board

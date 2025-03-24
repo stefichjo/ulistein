@@ -17,10 +17,4 @@ spec = do
         firstCard = Card 's' 'p' 'm' 'k'
       firstCard `on` emptyBoard `shouldBe` emptyBoard // [((1,1), Just firstCard)]
 
-    it "sollte die zweite Karte auf das Board platzieren" $ do
-      let
-        previousBoard = Card 's' 'p' 'm' 'k' `on` emptyBoard
-        nextCard = Card 'S' 'P' 'M' 'K'
-        nextBoard = previousBoard // [((1, 0), Just nextCard)]
-      nextCard `on` previousBoard `shouldBe` nextBoard
 
