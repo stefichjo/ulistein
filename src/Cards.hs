@@ -22,3 +22,7 @@ instance Show Card where
 rotateCard :: Card -> Int -> Card
 rotateCard card 0 = card
 rotateCard (Card t r b l) n = rotateCard (Card l t r b) (n - 1)
+
+rotationsCard :: Card -> [Card]
+rotationsCard card = map (rotateCard card) [0..3]
+

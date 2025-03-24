@@ -29,3 +29,15 @@ spec = do
     it "sollte eine Karte als kompakte Zeichenkette anzeigen" $ do
       let card = Card 'S' 'k' 'M' 'p'
       show card `shouldBe` "SkMp"
+
+    it "sollte eine Karte 4 mal rotieren können" $ do
+      let
+        card = Card 's' 'p' 'm' 'k'
+        rotations = rotationsCard card
+      rotations `shouldBe` [
+          Card 's' 'p' 'm' 'k',
+          Card 'k' 's' 'p' 'm',
+          Card 'm' 'k' 's' 'p',
+          Card 'p' 'm' 'k' 's'
+        ]
+
