@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Board where
 
-import Cards (Card (..), top, left, right, bottom, rotationsCard, Half)
+import Cards (Card (..), top, left, right, bottom, rotations, Half)
 import Data.Maybe (isJust, isNothing, catMaybes)
 import Data.List (intercalate, find)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
@@ -80,8 +80,7 @@ maybeOn card board =
     Just (card `on` emptyBoard)
   else
     let
-      rotations = rotationsCard card
-      boards = map (`on` board) rotations
+      boards = map (`on` board) (rotations card)
     in
       find isValid boards
 

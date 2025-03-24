@@ -2,6 +2,8 @@ module CardsSpec (spec) where
 
 import Test.Hspec
 import Cards
+import Cards
+import Cards (rotations)
 
 spec :: Spec
 spec = do
@@ -19,8 +21,7 @@ spec = do
     it "sollte eine Karte 4 mal rotieren können" $ do
       let
         card = Card 's' 'p' 'm' 'k'
-        rotations = rotationsCard card
-      map show rotations `shouldBe` [
+      map show (rotations card) `shouldBe` [
           "spmk",
           "kspm",
           "mksp",

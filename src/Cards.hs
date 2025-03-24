@@ -18,8 +18,8 @@ instance Show Card where
     show :: Card -> String
     show (Card t r b l) = [t, r, b, l]
 
-rotationsCard :: Card -> [Card]
-rotationsCard card = take 4 $ iterate rotate card
+rotations :: Card -> [Card]
+rotations card = take 4 $ iterate rotate card
 
 rotate :: Card -> Card
 rotate (Card t r b l) = Card l t r b
