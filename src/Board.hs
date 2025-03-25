@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Board where
 
-import Cards (Card (..), top, left, right, bottom, rotations, Half)
+import Cards (Card (..), top, left, right, bottom, rotations, Half, isValidMatch)
 import Data.Maybe (isJust, isNothing, catMaybes)
 import Data.List (intercalate, find)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
@@ -11,8 +11,6 @@ type Position = (Int, Int)
 
 -- Ein Board im Aufbau, mit Maybe für leere Positionen
 type Board = Array Position (Maybe Card)
-
-type Setter = Card -> Board -> Board
 
 -- Die Reihenfolge, in der Karten platziert werden sollen:
 -- 9 2 6
@@ -39,8 +37,8 @@ countCards board = length [() | cell <- elems board, isJust cell]
 emptyBoard :: Board
 emptyBoard = array ((0,0), (2,2)) [((i,j), Nothing) | i <- [0..2], j <- [0..2]]
 
-on :: Setter
-card `on` board =
+strictlyOn :: Card -> Board -> Board
+card `strictlyOn` board =
   let
     cardsCount = length $ filter isJust (elems board)
     place card b = b // [(positions !! cardsCount, Just card)]
@@ -70,30 +68,19 @@ getNonMatchingHalves board =
 
     halves = horizontalHalves ++ verticalHalves
   in
-    filter (not . matches) $ catMaybes halves
+    filter (not . isValidMatch) $ catMaybes halves
 
-maybeOn :: Card -> Board -> Maybe Board
-maybeOn card board =
+on :: Card -> Board -> Maybe Board
+card `on` board =
   if
     null board
   then
-    Just (card `on` emptyBoard)
+    Just (card `strictlyOn` emptyBoard)
   else
     let
-      boards = map (`on` board) (rotations card)
+      boards = map (`strictlyOn` board) (rotations card)
     in
-      find isValid boards
+      find isValidBoard boards
 
-matches :: (Half, Half) -> Bool
-matches ('s', 'S') = True
-matches ('S', 's') = True
-matches ('k', 'K') = True
-matches ('K', 'k') = True
-matches ('m', 'M') = True
-matches ('M', 'm') = True
-matches ('p', 'P') = True
-matches ('P', 'p') = True
-matches _ = False
-
-isValid :: Board -> Bool
-isValid board = null $ getNonMatchingHalves board
+isValidBoard :: Board -> Bool
+isValidBoard board = null $ getNonMatchingHalves board

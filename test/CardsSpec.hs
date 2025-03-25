@@ -2,8 +2,6 @@ module CardsSpec (spec) where
 
 import Test.Hspec
 import Cards
-import Cards
-import Cards (rotations)
 
 spec :: Spec
 spec = do
