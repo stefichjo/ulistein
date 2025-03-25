@@ -39,19 +39,19 @@ spec = do
         [c0, c1, c2, c3, c4, c5, c6, c7, c8] = allCards
         solution = Just emptyBoard
           -- center
-          >>= (c2 `on`)
+          >>= on c2
 
           -- edges
-          >>= (c4 `on`)
-          >>= (c7 `on`)
-          >>= (c8 `on`)
-          >>= (c6 `on`)
+          >>= on c4
+          >>= on c7
+          >>= on c8
+          >>= on c6
 
           -- corners
-          >>= (c1 `on`)
-          >>= (c0 `on`)
-          >>= (c5 `on`)
-          >>= (c3 `on`)
+          >>= on c1
+          >>= on c0
+          >>= on c5
+          >>= on c3
 
       solution `shouldBe` Just (Just <$> array ((0,0), (2,2)) [
           ((0,0), rotate c3), ((0,1), rotate . rotate $ c4), ((0,2), rotate . rotate $ c1),
