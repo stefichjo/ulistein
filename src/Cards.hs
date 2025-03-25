@@ -16,6 +16,19 @@ data Card = Card {
     left   :: Half
 } deriving (Eq)
 
+allCards :: [Card]
+allCards = [
+    Card 'S' 'k' 'M' 'p', -- 0
+    Card 'k' 'S' 'M' 'p', -- 1
+    Card 'k' 'p' 'S' 'M', -- 2
+    Card 'm' 'k' 'P' 'S', -- 3
+    Card 'K' 'M' 'S' 's', -- 4
+    Card 'K' 's' 'P' 'm', -- 5
+    Card 'p' 's' 'K' 'm', -- 6
+    Card 'm' 's' 'P' 'K', -- 7
+    Card 'k' 'M' 's' 'P'  -- 8
+  ]
+
 instance Show Card where
     show :: Card -> String
     show (Card t r b l) = [t, r, b, l]

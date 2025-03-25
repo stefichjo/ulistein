@@ -17,7 +17,7 @@ type Board = Array Position (Maybe Card)
 -- 5 1 3
 -- 8 4 7
 positions :: [Position]
-positions = [(1,1), (1,0), (2,1), (1,2), (0,1), (2,0), (2,2), (0,2), (0,0)]
+positions = [(1,1), (0,1), (1,2), (2,1), (1,0), (0,2), (2,2), (2,0), (0,0)]
 
 -- | Zeigt ein Board mit allen vier Seiten jeder Karte an
 showBoard :: Board -> String
@@ -73,9 +73,8 @@ card `on` board =
     card `strictlyOn` board =
       let
         cardsCount = length $ filter isJust (elems board)
-        place card b = b // [(positions !! cardsCount, Just card)]
       in
-        place card board
+        board // [(positions !! cardsCount, Just card)]
 
 isValidBoard :: Board -> Bool
-isValidBoard board = null $ getInvalidMatches board
+isValidBoard = null . getInvalidMatches
