@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Board where
 
-import Cards (Card (..), top, left, right, bottom, rotations, Half, isValidMatch)
+import Cards (Card (..), top, left, right, bottom, rotations, isValidMatch, Match, Half)
 import Data.Maybe (isJust, isNothing, catMaybes)
 import Data.List (intercalate, find)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
@@ -37,38 +37,26 @@ countCards board = length [() | cell <- elems board, isJust cell]
 emptyBoard :: Board
 emptyBoard = array ((0,0), (2,2)) [((i,j), Nothing) | i <- [0..2], j <- [0..2]]
 
-strictlyOn :: Card -> Board -> Board
-card `strictlyOn` board =
-  let
-    cardsCount = length $ filter isJust (elems board)
-    place card b = b // [(positions !! cardsCount, Just card)]
-  in
-    place card board
-
-getNonMatchingHalves :: Board -> [(Half, Half)]
-getNonMatchingHalves board =
+getInvalidMatches :: Board -> [Match]
+getInvalidMatches board =
   let
     [c0, c1, c2, c3, c4, c5, c6, c7, c8] = elems board
 
-    -- Hilfsfunktionen für horizontale und vertikale Paare
-    getHorizontalPair :: (Maybe Card, Maybe Card) -> Maybe (Half, Half)
-    getHorizontalPair (mc1, mc2) = do
-        c1 <- mc1
-        c2 <- mc2
-        return (right c1, left c2)
+    horizontalNeighbors = [(c0, c1), (c1, c2), (c3, c4), (c4, c5), (c6, c7), (c7, c8)]
+    verticalNeighbors = [(c0, c3), (c3, c6), (c1, c4), (c4, c7), (c2, c5), (c5, c8)]
 
-    getVerticalPair :: (Maybe Card, Maybe Card) -> Maybe (Half, Half)
-    getVerticalPair (mc1, mc2) = do
-        c1 <- mc1
-        c2 <- mc2
-        return (bottom c1, top c2)
+    horizontalMatches = map (getMatch (right, left)) horizontalNeighbors
+    verticalMatches = map (getMatch (bottom, top)) verticalNeighbors
 
-    horizontalHalves = map getHorizontalPair [(c0, c1), (c1, c2), (c3, c4), (c4, c5), (c6, c7), (c7, c8)]
-    verticalHalves = map getVerticalPair [(c0, c3), (c3, c6), (c1, c4), (c4, c7), (c2, c5), (c5, c8)]
-
-    halves = horizontalHalves ++ verticalHalves
+    matches = catMaybes (horizontalMatches ++ verticalMatches)
   in
-    filter (not . isValidMatch) $ catMaybes halves
+    filter (not . isValidMatch) matches
+  where
+    getMatch :: (Card -> Half, Card -> Half) -> (Maybe Card, Maybe Card) -> Maybe Match
+    getMatch (f, g) (mc1, mc2) = do
+      c1 <- mc1
+      c2 <- mc2
+      return (f c1, g c2)
 
 on :: Card -> Board -> Maybe Board
 card `on` board =
@@ -81,6 +69,13 @@ card `on` board =
       boards = map (`strictlyOn` board) (rotations card)
     in
       find isValidBoard boards
+  where
+    card `strictlyOn` board =
+      let
+        cardsCount = length $ filter isJust (elems board)
+        place card b = b // [(positions !! cardsCount, Just card)]
+      in
+        place card board
 
 isValidBoard :: Board -> Bool
-isValidBoard board = null $ getNonMatchingHalves board
+isValidBoard board = null $ getInvalidMatches board
