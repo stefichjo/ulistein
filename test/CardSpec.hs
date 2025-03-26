@@ -1,7 +1,7 @@
-module CardsSpec (spec) where
+module CardSpec (spec) where
 
 import Test.Hspec
-import Cards
+import Card
 
 spec :: Spec
 spec = do
@@ -25,4 +25,3 @@ spec = do
           "mksp",
           "pmks"
         ]
-

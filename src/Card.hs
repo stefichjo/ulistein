@@ -1,5 +1,5 @@
 {-# LANGUAGE InstanceSigs #-}
-module Cards where
+module Card where
 
 import Data.Maybe (isJust)
 import Data.List (permutations)
@@ -50,4 +50,3 @@ isValidMatch = (`elem` [
     ('m', 'M'), ('M', 'm'),
     ('p', 'P'), ('P', 'p')
   ])
-
