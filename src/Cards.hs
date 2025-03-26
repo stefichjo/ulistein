@@ -2,6 +2,7 @@
 module Cards where
 
 import Data.Maybe (isJust)
+import Data.List (permutations)
 
 -- Eine Tierhälfte ist ein Buchstabe: Großbuchstabe = Upper, Kleinbuchstabe = Lower
 type Half = Char
@@ -28,6 +29,9 @@ allCards = [
     Card 'm' 's' 'P' 'K', -- 7
     Card 'k' 'M' 's' 'P'  -- 8
   ]
+
+allCardPermutations :: [[Card]]
+allCardPermutations = permutations allCards
 
 instance Show Card where
     show :: Card -> String

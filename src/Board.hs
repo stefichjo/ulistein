@@ -1,11 +1,12 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Board where
 
-import Cards (Card (..), top, left, right, bottom, rotations, isValidMatch, Match, Half)
-import Data.Maybe (isJust, isNothing, catMaybes)
-import Data.List (intercalate, find)
+import Cards (Card (..), top, left, right, bottom, rotations, isValidMatch, Match, Half, allCardPermutations)
+import Data.Maybe (isJust, isNothing, catMaybes, mapMaybe)
+import Data.List (intercalate, find, permutations)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
 import Data.Char (toUpper, toLower)
+import Control.Monad (foldM)
 
 type Position = (Int, Int)
 
@@ -76,5 +77,11 @@ card `on` board =
       in
         board // [(positions !! cardsCount, Just card)]
 
+toSolution :: [Card] -> Maybe Board
+toSolution = foldM (flip on) emptyBoard
+
 isValidBoard :: Board -> Bool
 isValidBoard = null . getInvalidMatches
+
+solutions :: [Board]
+solutions = mapMaybe toSolution allCardPermutations
