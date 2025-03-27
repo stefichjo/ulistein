@@ -69,12 +69,11 @@ isValidBoard = null . getInvalidMatches
       c2 <- mc2
       return (f c1, g c2)
     
-showBoard :: Board -> String
-showBoard board = unlines $ concatMap showBoardRow [0..2]
-  where
-    showBoardRow row = [
-        intercalate "  " [maybe "  _  " (\c -> "  " ++ [top c] ++ "  ") (board ! (row,col))    | col <- [0..2]],
-        intercalate "  " [maybe " _|_ " (\c -> " " ++ [left c] ++ "|" ++ [right c] ++ " ") (board ! (row,col))  | col <- [0..2]],
-        intercalate "  " [maybe "  -  " (\c -> "  " ++ [bottom c] ++ "  ") (board ! (row,col)) | col <- [0..2]]
+instance {-# OVERLAPPING #-} Show Board where
+  show board = unlines $ concatMap showBoardRow [0..2]
+    where
+      showBoardRow row = [
+          intercalate "  " [maybe "  _  " (\c -> "  " ++ [top c]    ++ "  ")                    (board ! (row,col)) | col <- [0..2]],
+          intercalate "  " [maybe " _._ " (\c -> " "  ++ [left c]   ++ "." ++ [right c] ++ " ") (board ! (row,col)) | col <- [0..2]],
+          intercalate "  " [maybe "  -  " (\c -> "  " ++ [bottom c] ++ "  ")                    (board ! (row,col)) | col <- [0..2]]
         ]
-
