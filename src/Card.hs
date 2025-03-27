@@ -1,4 +1,3 @@
-{-# LANGUAGE InstanceSigs #-}
 module Card where
 
 import Data.Maybe (isJust)
@@ -34,8 +33,7 @@ allCardPermutations :: [[Card]]
 allCardPermutations = permutations allCards
 
 instance Show Card where
-    show :: Card -> String
-    show (Card t r b l) = [t, r, b, l]
+  show (Card t r b l) = [t, r, b, l]
 
 rotations :: Card -> [Card]
 rotations card = take 4 $ iterate rotate card

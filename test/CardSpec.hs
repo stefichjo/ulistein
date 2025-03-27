@@ -1,27 +1,24 @@
-module CardSpec (spec) where
+module CardSpec where
 
-import Test.Hspec
-import Card
+import Test.Hspec ( Spec, describe, it, shouldBe )
+import Card ( rotate, rotations, Card(Card) )
+
+card :: Card
+card = Card 'S' 'k' 'M' 'p'
 
 spec :: Spec
 spec = do
   describe "Card" $ do
-    it "sollte eine Karte korrekt rotieren" $ do
-      let
-        card = Card 'S' 'k' 'M' 'p'
-        rotated = rotate card
-      rotated `shouldBe` Card 'p' 'S' 'k' 'M'
-
     it "sollte eine Karte als kompakte Zeichenkette anzeigen" $ do
-      let card = Card 'S' 'k' 'M' 'p'
       show card `shouldBe` "SkMp"
 
-    it "sollte eine Karte 4 mal rotieren können" $ do
-      let
-        card = Card 's' 'p' 'm' 'k'
-      map show (rotations card) `shouldBe` [
-          "spmk",
-          "kspm",
-          "mksp",
-          "pmks"
+    it "sollte eine Karte korrekt rotieren" $ do
+      rotate card `shouldBe` Card 'p' 'S' 'k' 'M'
+
+    it "sollte die möglichen Rotationen einer Karte kennen" $ do
+      rotations card `shouldBe` [
+          Card 'S' 'k' 'M' 'p',
+          Card 'p' 'S' 'k' 'M',
+          Card 'M' 'p' 'S' 'k',
+          Card 'k' 'M' 'p' 'S'
         ]
