@@ -19,22 +19,25 @@ countCards :: Board -> Int
 countCards board = length [() | cell <- elems board, isJust cell]
 
 toSolution :: [Card] -> Maybe Board
-toSolution = foldM (flip maybeOn) emptyBoard
+toSolution = foldM maybeWith emptyBoard
 
-maybeOn :: Card -> Board -> Maybe Board
-card `maybeOn` board =
+solutions :: [Board]
+solutions = mapMaybe toSolution allCardPermutations
+
+maybeWith :: Board -> Card -> Maybe Board
+board `maybeWith` card =
   if
     null board
   then
-    Just (card `on` emptyBoard)
+    Just (emptyBoard `with` card)
   else
     let
-      boards = map (`on` board) (rotations card)
+      boards = (board `with`) <$> rotations card
     in
       find isValidBoard boards
 
-on :: Card -> Board -> Board
-card `on` board =
+with :: Board -> Card -> Board
+board `with` card =
   let
     cardsCount = length $ filter isJust (elems board)
   in
@@ -69,9 +72,6 @@ isValidBoard = null . getInvalidMatches
       c2 <- mc2
       return (f c1, g c2)
     
-solutions :: [Board]
-solutions = mapMaybe toSolution allCardPermutations
-
 showBoard :: Board -> String
 showBoard board = unlines $ concatMap showBoardRow [0..2]
   where
