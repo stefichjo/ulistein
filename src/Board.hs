@@ -1,10 +1,11 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Board where
 
-import Card (Card (..), top, left, right, bottom, rotations, isValidMatch, Match, Half, allCardPermutations)
+import Card (Card (..), top, left, right, bottom, rotations, isValidMatch, Match, Half, allCardPermutations, allCards)
 import Data.Maybe (isJust, isNothing, catMaybes, mapMaybe)
-import Data.List (intercalate, find, permutations)
+import Data.List (intercalate, find, permutations, transpose)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
+import Utils (chunksOf)
 import Data.Char (toUpper, toLower)
 import Control.Monad (foldM)
 
@@ -68,12 +69,23 @@ isValidBoard = null . getInvalidMatches
       c1 <- mc1
       c2 <- mc2
       return (f c1, g c2)
-    
+
+instance {-# OVERLAPPING #-} Show (Maybe Card) where
+  show Nothing = unlines [
+      " _ ",
+      "_._",
+      " _ "
+    ]
+  show (Just card) = unlines [
+      " " ++ [top card] ++ " ",
+      [left card] ++ "." ++ [right card],
+      " " ++ [bottom card] ++ " "
+    ]
+
 instance {-# OVERLAPPING #-} Show Board where
-  show board = unlines $ concatMap showBoardRow [0..2]
-    where
-      showBoardRow row = [
-          intercalate "  " [maybe "  _  " (\c -> "  " ++ [top c]    ++ "  ")                    (board ! (row,col)) | col <- [0..2]],
-          intercalate "  " [maybe " _._ " (\c -> " "  ++ [left c]   ++ "." ++ [right c] ++ " ") (board ! (row,col)) | col <- [0..2]],
-          intercalate "  " [maybe "  -  " (\c -> "  " ++ [bottom c] ++ "  ")                    (board ! (row,col)) | col <- [0..2]]
-        ]
+  show board =
+    let
+      cardLines = map (lines . show) (elems board)
+      groupedLines = map (transpose . take 3) (chunksOf 3 cardLines)
+    in
+      unlines $ concatMap (map unwords) groupedLines

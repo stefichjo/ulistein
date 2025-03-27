@@ -25,6 +25,7 @@ library
   exposed-modules:
       Board
       Card
+      Utils
   other-modules:
       Paths_ulistein
   hs-source-dirs:
