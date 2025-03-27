@@ -12,17 +12,14 @@ type Position = (Int, Int)
 
 type Board = Array Position (Maybe Card)
 
-emptyBoard :: Board
-emptyBoard = array ((0,0), (2,2)) [((i,j), Nothing) | i <- [0..2], j <- [0..2]]
-
-countCards :: Board -> Int
-countCards board = length [() | cell <- elems board, isJust cell]
+solutions :: [Board]
+solutions = mapMaybe toSolution allCardPermutations
 
 toSolution :: [Card] -> Maybe Board
 toSolution = foldM maybeWith emptyBoard
 
-solutions :: [Board]
-solutions = mapMaybe toSolution allCardPermutations
+emptyBoard :: Board
+emptyBoard = array ((0,0), (2,2)) [((i,j), Nothing) | i <- [0..2], j <- [0..2]]
 
 maybeWith :: Board -> Card -> Maybe Board
 board `maybeWith` card =
@@ -37,12 +34,13 @@ board `maybeWith` card =
       find isValidBoard boards
 
 with :: Board -> Card -> Board
-board `with` card =
-  let
-    cardsCount = length $ filter isJust (elems board)
-  in
-    board // [(positions !! cardsCount, Just card)]
+board `with` card = board // [(nextPosition board, Just card)]
+
+nextPosition :: Board -> Position
+nextPosition board = positions !! countCards board
   where
+    countCards board = length $ filter isJust (elems board)
+
     -- Die Reihenfolge, in der Karten platziert werden sollen:
     -- 8 1 5
     -- 4 0 2
@@ -52,7 +50,6 @@ board `with` card =
 isValidBoard :: Board -> Bool
 isValidBoard = null . getInvalidMatches
   where
-    getInvalidMatches :: Board -> [Match]
     getInvalidMatches board =
       let
         [c0, c1, c2, c3, c4, c5, c6, c7, c8] = elems board

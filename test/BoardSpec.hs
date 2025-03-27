@@ -4,7 +4,7 @@ import Test.Hspec ( describe, it, shouldBe, Spec, shouldContain, hspec )
 import Card ( Card(..), rotate, allCards )
 import Data.Maybe (isNothing, isJust)
 import Data.Array ((!), array, elems, (//))
-import Board ( countCards, emptyBoard, solutions, toSolution, Board )
+import Board ( emptyBoard, solutions, toSolution, Board )
 import Data.Foldable (Foldable(..))
 
 c0 :: Card
@@ -26,10 +26,6 @@ spec = do
   describe "Board" $ do
     it "sollte ein leeres 3x3 Board erstellen" $ do
       all isNothing (elems emptyBoard) `shouldBe` True
-
-    it "sollte die Karten auf einem Board zählen" $ do
-      countCards emptyBoard `shouldBe` 0
-      countCards (emptyBoard // [((1,1), Just c2)]) `shouldBe` 1
 
     it "sollte die erste Karte unrotiert in die Mitte des Boards legen" $ do
       toSolution [c2] `shouldBe` Just (emptyBoard // [((1,1), Just c2)])
