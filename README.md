@@ -33,3 +33,80 @@ Die Karten werden in folgender Reihenfolge gelegt:
 ```
 
 Die erste Karte (0) wird in der Mitte ohne Rotation platziert. Alle anderen Karten werden in der angegebenen Reihenfolge platziert und dabei so rotiert, dass sie zu ihren Nachbarkarten passen. Durch geschicktes Betrachten aller Karten sieht man, dass es höchstens nur eine passende Rotation geben kann.
+
+## Lösungen
+
+```
+ghci> mapM_ print solutions         
+```
+```
+ k   P   k 
+p.S s.m M.p
+ M   K   S
+ m   k   s
+K.p P.M m.P
+ s   s   K
+ S   S   k
+P.m M.s S.M
+ k   K   p
+
+ m   S   S
+K.p P.m M.s
+ s   k   K
+ S   K   k
+k.M m.s S.M
+ p   P   p
+ P   p   P
+s.K k.S s.k
+ m   M   M
+
+ p   P   p
+k.S s.m M.k
+ M   K   S
+ m   k   s
+K.p P.M m.P
+ s   s   K
+ S   S   k
+P.m M.s S.M
+ k   K   p
+
+ P   P   k 
+k.S s.m M.p
+ m   K   S 
+ M   k   s 
+S.p P.M m.P
+ k   s   K 
+ K   S   k 
+s.m M.s S.M
+ p   K   p 
+
+ S   S   M 
+P.m M.s S.p
+ k   K   k 
+ K   k   K 
+s.m M.p P.m
+ p   S   s 
+ P   s   S 
+s.m M.P p.k
+ K   k   M 
+
+ S   S   M 
+P.m M.s S.p
+ k   K   k 
+ K   k   K 
+s.m M.p P.m
+ p   S   s 
+ P   s   S 
+s.k K.P p.k
+ M   m   M 
+
+ K   p   k 
+s.M m.s S.M
+ S   K   p
+ s   k   P
+K.P p.S s.k
+ m   M   M
+ M   m   m
+S.k K.s S.k
+ p   P   P
+```
