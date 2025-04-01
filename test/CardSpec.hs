@@ -1,6 +1,6 @@
 module CardSpec where
 
-import Test.Hspec ( Spec, describe, it, shouldBe )
+import Test.Hspec ( Spec, describe, it, shouldBe, shouldNotBe )
 import Card ( rotate, rotations, Card(Card) )
 
 card :: Card
@@ -22,3 +22,14 @@ spec = do
           Card 'M' 'p' 'S' 'k',
           Card 'k' 'M' 'p' 'S'
         ]
+
+    it "sollte gelegte Karten rotationstolerant vergleichen" $ do
+      (Nothing :: Maybe Card) `shouldBe` (Nothing :: Maybe Card)
+      (Nothing :: Maybe Card) `shouldNotBe` Just card
+      Just card `shouldNotBe` (Nothing :: Maybe Card)
+      Just card `shouldBe` Just card
+      Just card `shouldBe` Just (rotate card)
+      Just card `shouldBe` Just (rotate . rotate $ card)
+      Just card `shouldBe` Just (rotate . rotate . rotate $ card)
+
+

@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances #-}
 module Card where
 
 import Data.Maybe (isJust)
@@ -35,6 +36,12 @@ allCardPermutations = permutations allCards
 instance Show Card where
   show (Card t r b l) = [t, r, b, l]
 
+instance {-# OVERLAPPING #-} Eq (Maybe Card) where
+  Nothing == Nothing = True
+  Nothing == _ = False
+  _ == Nothing = False
+  Just c1 == Just c2 = c1 `elem` rotations c2
+
 rotations :: Card -> [Card]
 rotations card = take 4 $ iterate rotate card
 
@@ -48,3 +55,4 @@ isValidMatch = (`elem` [
     ('m', 'M'), ('M', 'm'),
     ('p', 'P'), ('P', 'p')
   ])
+
