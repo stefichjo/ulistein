@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE LambdaCase #-}
 module Card (Card(..), Half(..), Part(..), Animal(..), rotate, rotations, isValidMatch, Match, allCardPermutations, allCards) where
 
 import Data.Maybe (isJust)
@@ -27,14 +28,15 @@ data Card = Card {
 } deriving (Eq)
 
 instance Show Half where
-  show (Half Upper Schwein) = "S"
-  show (Half Lower Schwein) = "s"
-  show (Half Upper Pinguin) = "P"
-  show (Half Lower Pinguin) = "p"
-  show (Half Upper Katze) = "K"
-  show (Half Lower Katze) = "k"
-  show (Half Upper Maus) = "M"
-  show (Half Lower Maus) = "m"
+  show = \case
+    Half Upper Schwein -> "S"
+    Half Lower Schwein -> "s"
+    Half Upper Pinguin -> "P"
+    Half Lower Pinguin -> "p"
+    Half Upper Katze -> "K"
+    Half Lower Katze -> "k"
+    Half Upper Maus -> "M"
+    Half Lower Maus -> "m"
 
 instance Show Card where
   show (Card t r b l) = show t ++ show r ++ show b ++ show l
