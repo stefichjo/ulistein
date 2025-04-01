@@ -68,5 +68,5 @@ rotate :: Card -> Card
 rotate (Card t r b l) = Card l t r b
 
 isValidMatch :: Match -> Bool
-isValidMatch (Half part1 animal1, Half part2 animal2) =
-  animal1 == animal2 && part1 /= part2
+isValidMatch (Half p1 a1, Half p2 a2) =
+  a1 == a2 && p1 /= p2

@@ -50,13 +50,17 @@ isValidBoard = null . getInvalidMatches
       let
         [c0, c1, c2, c3, c4, c5, c6, c7, c8] = elems board
 
-        horizontalNeighbors = [(c0, c1), (c1, c2), (c3, c4), (c4, c5), (c6, c7), (c7, c8)]
-        verticalNeighbors = [(c0, c3), (c3, c6), (c1, c4), (c4, c7), (c2, c5), (c5, c8)]
+        horizontalMatches = mapMaybe (getMatch (right, left)) [
+            (c0, c1), (c1, c2),
+            (c3, c4), (c4, c5),
+            (c6, c7), (c7, c8)
+          ]
+        verticalMatches = mapMaybe (getMatch (bottom, top)) [
+            (c0, c3), (c1, c4), (c2, c5),
+            (c3, c6), (c4, c7), (c5, c8)
+          ]
 
-        horizontalMatches = map (getMatch (right, left)) horizontalNeighbors
-        verticalMatches = map (getMatch (bottom, top)) verticalNeighbors
-
-        matches = catMaybes (horizontalMatches ++ verticalMatches)
+        matches = horizontalMatches ++ verticalMatches
       in
         filter (not . isValidMatch) matches
     getMatch :: (Card -> Half, Card -> Half) -> (Maybe Card, Maybe Card) -> Maybe Match
