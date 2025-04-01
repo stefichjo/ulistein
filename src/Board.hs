@@ -3,7 +3,7 @@ module Board where
 
 import Card (Card (..), top, left, right, bottom, rotations, isValidMatch, Match, Half, allCardPermutations, allCards)
 import Data.Maybe (isJust, isNothing, catMaybes, mapMaybe)
-import Data.List (intercalate, find, permutations, transpose)
+import Data.List (intercalate, find, permutations, transpose, elemIndex)
 import Data.Array (Array, array, (!), bounds, indices, elems, (//))
 import Utils (chunksOf)
 import Data.Char (toUpper, toLower)
@@ -78,9 +78,12 @@ instance {-# OVERLAPPING #-} Show (Maybe Card) where
     ]
   show (Just card) = unlines [
       " " ++ [top card] ++ " ",
-      [left card] ++ "." ++ [right card],
+      [left card] ++ cardIndex card ++ [right card],
       " " ++ [bottom card] ++ " "
     ]
+
+cardIndex :: Card -> String
+cardIndex card = maybe "." show (elemIndex (Just card) (map Just allCards))
 
 instance {-# OVERLAPPING #-} Show Board where
   show board =

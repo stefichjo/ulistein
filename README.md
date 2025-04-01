@@ -36,77 +36,77 @@ Die erste Karte (0) wird in der Mitte ohne Rotation platziert. Alle anderen Kart
 
 ## Lösungen
 
-```
-ghci> mapM_ print solutions         
+```hs
+mapM_ print solutions         
 ```
 ```
  k   P   k 
-p.S s.m M.p
+p1S s5m M2p
  M   K   S
  m   k   s
-K.p P.M m.P
+K6p P8M m7P
  s   s   K
  S   S   k
-P.m M.s S.M
+P3m M4s S0M
  k   K   p
 
- m   S   S
-K.p P.m M.s
+ m   S   S 
+K6p P3m M4s
  s   k   K
  S   K   k
-k.M m.s S.M
+k1M m5s S0M
  p   P   p
  P   p   P
-s.K k.S s.k
+s7K k2S s8k
  m   M   M
 
- p   P   p
-k.S s.m M.k
+ p   P   p 
+k2S s5m M1k
  M   K   S
  m   k   s
-K.p P.M m.P
+K6p P8M m7P
  s   s   K
  S   S   k
-P.m M.s S.M
+P3m M4s S0M
  k   K   p
 
  P   P   k 
-k.S s.m M.p
- m   K   S 
- M   k   s 
-S.p P.M m.P
- k   s   K 
- K   S   k 
-s.m M.s S.M
- p   K   p 
+k3S s5m M2p
+ m   K   S
+ M   k   s
+S1p P8M m7P
+ k   s   K
+ K   S   k
+s6m M4s S0M
+ p   K   p
 
  S   S   M 
-P.m M.s S.p
- k   K   k 
- K   k   K 
-s.m M.p P.m
- p   S   s 
- P   s   S 
-s.m M.P p.k
- K   k   M 
+P3m M4s S1p
+ k   K   k
+ K   k   K
+s6m M2p P7m
+ p   S   s
+ P   s   S
+s5m M8P p0k
+ K   k   M
 
  S   S   M 
-P.m M.s S.p
- k   K   k 
- K   k   K 
-s.m M.p P.m
- p   S   s 
- P   s   S 
-s.k K.P p.k
- M   m   M 
+P3m M4s S1p
+ k   K   k
+ K   k   K
+s6m M2p P7m
+ p   S   s
+ P   s   S
+s8k K5P p0k
+ M   m   M
 
  K   p   k 
-s.M m.s S.M
+s4M m6s S0M
  S   K   p
  s   k   P
-K.P p.S s.k
+K5P p1S s8k
  m   M   M
  M   m   m
-S.k K.s S.k
+S2k K7s S3k
  p   P   P
 ```

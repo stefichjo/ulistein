@@ -23,13 +23,11 @@ spec = do
           Card 'k' 'M' 'p' 'S'
         ]
 
-    it "sollte gelegte Karten rotationstolerant vergleichen" $ do
-      (Nothing :: Maybe Card) `shouldBe` (Nothing :: Maybe Card)
-      (Nothing :: Maybe Card) `shouldNotBe` Just card
+    it "sollte gelegte (d.h. evtl. rotierte) Karten rotationstolerant vergleichen" $ do
       Just card `shouldNotBe` (Nothing :: Maybe Card)
+      (Nothing :: Maybe Card) `shouldNotBe` Just card
+      (Nothing :: Maybe Card) `shouldBe` (Nothing :: Maybe Card)
       Just card `shouldBe` Just card
       Just card `shouldBe` Just (rotate card)
       Just card `shouldBe` Just (rotate . rotate $ card)
       Just card `shouldBe` Just (rotate . rotate . rotate $ card)
-
-
