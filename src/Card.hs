@@ -62,9 +62,5 @@ rotate :: Card -> Card
 rotate (Card t r b l) = Card l t r b
 
 isValidMatch :: Match -> Bool
-isValidMatch = (`elem` [
-    (Half Lower Schwein, Half Upper Schwein), (Half Upper Schwein, Half Lower Schwein),
-    (Half Lower Katze, Half Upper Katze), (Half Upper Katze, Half Lower Katze),
-    (Half Lower Maus, Half Upper Maus), (Half Upper Maus, Half Lower Maus),
-    (Half Lower Pinguin, Half Upper Pinguin), (Half Upper Pinguin, Half Lower Pinguin)
-  ])
+isValidMatch (Half part1 animal1, Half part2 animal2) =
+  animal1 == animal2 && part1 /= part2
