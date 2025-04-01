@@ -10,6 +10,12 @@ data Animal = Schwein | Pinguin | Katze | Maus deriving (Eq)
 
 data Half = Half Part Animal deriving (Eq)
 
+upper :: Animal -> Half
+upper = Half Upper
+
+lower :: Animal -> Half
+lower = Half Lower
+
 type Match = (Half, Half)
 
 -- Eine Karte hat vier Tierhälften (oben, rechts, unten, links)
@@ -23,8 +29,8 @@ data Card = Card {
 instance Show Half where
   show (Half Upper Schwein) = "S"
   show (Half Lower Schwein) = "s"
-  show (Half Lower Pinguin) = "p"
   show (Half Upper Pinguin) = "P"
+  show (Half Lower Pinguin) = "p"
   show (Half Upper Katze) = "K"
   show (Half Lower Katze) = "k"
   show (Half Upper Maus) = "M"
@@ -35,15 +41,15 @@ instance Show Card where
 
 allCards :: [Card]
 allCards = [
-    Card (Half Upper Schwein) (Half Lower Katze) (Half Upper Maus) (Half Lower Pinguin), -- 0
-    Card (Half Lower Katze) (Half Upper Schwein) (Half Upper Maus) (Half Lower Pinguin), -- 1
-    Card (Half Lower Katze) (Half Lower Pinguin) (Half Upper Schwein) (Half Upper Maus), -- 2
-    Card (Half Lower Maus) (Half Lower Katze) (Half Upper Pinguin) (Half Upper Schwein), -- 3
-    Card (Half Upper Katze) (Half Upper Maus) (Half Upper Schwein) (Half Lower Schwein), -- 4
-    Card (Half Upper Katze) (Half Lower Schwein) (Half Upper Pinguin) (Half Lower Maus), -- 5
-    Card (Half Lower Pinguin) (Half Lower Schwein) (Half Upper Katze) (Half Lower Maus), -- 6
-    Card (Half Lower Maus) (Half Lower Schwein) (Half Upper Pinguin) (Half Upper Katze), -- 7
-    Card (Half Lower Katze) (Half Upper Maus) (Half Lower Schwein) (Half Upper Pinguin)  -- 8
+    Card (upper Schwein) (lower Katze) (upper Maus) (lower Pinguin), -- 0
+    Card (lower Katze) (upper Schwein) (upper Maus) (lower Pinguin), -- 1
+    Card (lower Katze) (lower Pinguin) (upper Schwein) (upper Maus), -- 2
+    Card (lower Maus) (lower Katze) (upper Pinguin) (upper Schwein), -- 3
+    Card (upper Katze) (upper Maus) (upper Schwein) (lower Schwein), -- 4
+    Card (upper Katze) (lower Schwein) (upper Pinguin) (lower Maus), -- 5
+    Card (lower Pinguin) (lower Schwein) (upper Katze) (lower Maus), -- 6
+    Card (lower Maus) (lower Schwein) (upper Pinguin) (upper Katze), -- 7
+    Card (lower Katze) (upper Maus) (lower Schwein) (upper Pinguin)  -- 8
   ]
 
 allCardPermutations :: [[Card]]
