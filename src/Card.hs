@@ -5,7 +5,6 @@ module Card (Card(..), Half(..), Part(..), Animal(..), rotate, rotations, isVali
 import Data.Maybe (isJust)
 import Data.List (permutations)
 
--- Eine Tierhälfte ist ein Buchstabe: Großbuchstabe = Upper, Kleinbuchstabe = Lower
 data Part = Upper | Lower deriving (Eq)
 data Animal = Schwein | Pinguin | Katze | Maus deriving (Eq)
 
@@ -19,7 +18,6 @@ lower = Half Lower
 
 type Match = (Half, Half)
 
--- Eine Karte hat vier Tierhälften (oben, rechts, unten, links)
 data Card = Card {
     top    :: Half,
     right  :: Half,
