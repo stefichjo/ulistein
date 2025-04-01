@@ -41,11 +41,6 @@ nextPosition :: Board -> Position
 nextPosition board = positions !! countCards board
   where
     countCards board = length $ filter isJust (elems board)
-
-    -- Die Reihenfolge, in der Karten platziert werden sollen:
-    -- 8 1 5
-    -- 4 0 2
-    -- 7 3 6
     positions = [(1,1), (0,1), (1,2), (2,1), (1,0), (0,2), (2,2), (2,0), (0,0)]
 
 isValidBoard :: Board -> Bool
@@ -77,9 +72,9 @@ instance {-# OVERLAPPING #-} Show (Maybe Card) where
       " _ "
     ]
   show (Just card) = unlines [
-      " " ++ [top card] ++ " ",
-      [left card] ++ cardIndex card ++ [right card],
-      " " ++ [bottom card] ++ " "
+      " " ++ show (top card) ++ " ",
+      show (left card) ++ cardIndex card ++ show (right card),
+      " " ++ show (bottom card) ++ " "
     ]
 
 cardIndex :: Card -> String

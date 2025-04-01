@@ -1,10 +1,10 @@
 module CardSpec where
 
 import Test.Hspec ( Spec, describe, it, shouldBe, shouldNotBe )
-import Card ( rotate, rotations, Card(Card) )
+import Card ( rotate, rotations, Card(Card), Half(Half), Part(..), Animal(..) )
 
 card :: Card
-card = Card 'S' 'k' 'M' 'p'
+card = Card (Half Upper Schwein) (Half Lower Katze) (Half Upper Maus) (Half Lower Pinguin)
 
 spec :: Spec
 spec = do
@@ -13,14 +13,14 @@ spec = do
       show card `shouldBe` "SkMp"
 
     it "sollte eine Karte korrekt rotieren" $ do
-      rotate card `shouldBe` Card 'p' 'S' 'k' 'M'
+      rotate card `shouldBe` Card (Half Lower Pinguin) (Half Upper Schwein) (Half Lower Katze) (Half Upper Maus)
 
     it "sollte die möglichen Rotationen einer Karte kennen" $ do
       rotations card `shouldBe` [
-          Card 'S' 'k' 'M' 'p',
-          Card 'p' 'S' 'k' 'M',
-          Card 'M' 'p' 'S' 'k',
-          Card 'k' 'M' 'p' 'S'
+          Card (Half Upper Schwein) (Half Lower Katze) (Half Upper Maus) (Half Lower Pinguin),
+          Card (Half Lower Pinguin) (Half Upper Schwein) (Half Lower Katze) (Half Upper Maus),
+          Card (Half Upper Maus) (Half Lower Pinguin) (Half Upper Schwein) (Half Lower Katze),
+          Card (Half Lower Katze) (Half Upper Maus) (Half Lower Pinguin) (Half Upper Schwein)
         ]
 
     it "sollte gelegte (d.h. evtl. rotierte) Karten rotationstolerant vergleichen" $ do
